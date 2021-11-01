@@ -24,7 +24,7 @@ public interface MemberService extends UserDetailsService {
     boolean resetPassword(String id, String password);
 
     /**
-     * 입력한 받은 uuid이 유효한지 확인
+     * 입력한 받은 uuid이 유효한지 확인함.
      */
     boolean checkResetPassword(String uuid);
 }
