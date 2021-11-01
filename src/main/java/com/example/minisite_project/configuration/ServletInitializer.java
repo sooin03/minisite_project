@@ -1,5 +1,6 @@
-package com.example.minisite_project;
+package com.example.minisite_project.configuration;
 
+import com.example.minisite_project.MinisiteProjectApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
