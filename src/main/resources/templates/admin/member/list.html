@@ -50,7 +50,7 @@
                     <option th:selected="${#strings.equals(param.searchType, 'userName')}" value="userName">이름</option>
                     <option th:selected="${#strings.equals(param.searchType, 'phone')}" value="phone">연락처</option>
                 </select>
-                <input th:value="${param.searchValue}" type="sear" name="searchValue" placeholder="검색어 입력"/>
+                <input th:value="${param.searchValue}" type="search" name="searchValue" placeholder="검색어 입력"/>
                 <button type="submit">검색</button>
             </form>
        </div>
@@ -102,9 +102,6 @@
                     <td>
                         <p th:if="${x.adminYn}">Y</p>
                         <p th:if="${x.adminYn eq false}">N</p>
-                    </td>
-                    <td>
-                        <p th:text="${x.lastLoginDt}"></p>
                     </td>
                 </tr>
             </tbody>

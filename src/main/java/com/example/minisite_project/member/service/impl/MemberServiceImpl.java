@@ -1,8 +1,13 @@
 package com.example.minisite_project.member.service.impl;
 
+import com.example.minisite_project.admin.dto.MemberDto;
+import com.example.minisite_project.admin.member.model.MemberParam;
 import com.example.minisite_project.components.MailComponents;
+//import com.example.minisite_project.member.dto.MemberDto;
+
 import com.example.minisite_project.member.entity.Member;
 import com.example.minisite_project.member.exception.MemberNotEmailAuthException;
+import com.example.minisite_project.member.mapper.MemberMapper;
 import com.example.minisite_project.member.model.MemberInput;
 import com.example.minisite_project.member.model.ResetPasswordInput;
 import com.example.minisite_project.member.repository.MemberRepository;
@@ -15,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,6 +34,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MailComponents mailComponents;
+
+    private final MemberMapper memberMapper;
 
     @Override
     public boolean register(MemberInput parameter) {
@@ -155,6 +163,23 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return true;
+    }
+
+    @Override
+    public List<MemberDto> list(MemberParam parameter) {
+
+        long totalCount = memberMapper.selectListCount(parameter);
+
+        List<MemberDto> list = memberMapper.selectList(parameter);
+        if (!CollectionUtils.isEmpty(list)) {
+            int i = 0;
+            for(MemberDto x : list) {
+                x.setTotalCount(totalCount);
+                x.setSeq(totalCount - parameter.getPageStart() - i);
+                i++;
+            }
+        }
+        return list;
     }
 
     @Override
