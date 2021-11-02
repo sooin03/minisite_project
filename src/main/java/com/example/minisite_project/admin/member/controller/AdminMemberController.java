@@ -1,13 +1,15 @@
 package com.example.minisite_project.admin.member.controller;
 
+import com.example.minisite_project.admin.dto.MemberDto;
+import com.example.minisite_project.admin.member.model.AdminMemberInput;
 import com.example.minisite_project.admin.member.model.MemberParam;
 import com.example.minisite_project.common.BaseController;
-import com.example.minisite_project.admin.dto.MemberDto;
 import com.example.minisite_project.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -36,37 +38,37 @@ public class AdminMemberController extends BaseController {
         
         return "admin/member/list";
     }
-//
-//    @GetMapping("/admin/member/detail.do")
-//    public String detail(Model model, MemberParam parameter) {
-//
-//        parameter.init();
-//
-//        MemberDto member = memberService.detail(parameter.getUserId());
-//        model.addAttribute("member", member);
-//
-//        return "admin/member/detail";
-//    }
-//
-//    @PostMapping("/admin/member/status.do")
-//    public String status(Model model, AdminMemberInput parameter) {
-//
-//
-//        boolean result = memberService.updateStatus(parameter.getUserId(), parameter.getUserStatus());
-//
-//        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
-//    }
-//
-//
-//    @PostMapping("/admin/member/password.do")
-//    public String password(Model model, AdminMemberInput parameter) {
-//
-//
-//        boolean result = memberService.updatePassword(parameter.getUserId(), parameter.getPassword());
-//
-//        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
-//    }
-//
+
+    @GetMapping("/admin/member/detail.do")
+    public String detail(Model model, MemberParam parameter) {
+
+        parameter.init();
+
+        MemberDto member = memberService.detail(parameter.getUserId());
+        model.addAttribute("member", member);
+
+        return "admin/member/detail";
+    }
+
+    @PostMapping("/admin/member/status.do")
+    public String status(Model model, AdminMemberInput parameter) {
+
+
+        boolean result = memberService.updateStatus(parameter.getUserId(), parameter.getUserStatus());
+
+        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
+    }
+
+
+    @PostMapping("/admin/member/password.do")
+    public String password(Model model, AdminMemberInput parameter) {
+
+
+        boolean result = memberService.updatePassword(parameter.getUserId(), parameter.getPassword());
+
+        return "redirect:/admin/member/detail.do?userId=" + parameter.getUserId();
+    }
+
     
     
     

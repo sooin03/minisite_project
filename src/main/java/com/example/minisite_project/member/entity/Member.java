@@ -39,6 +39,5 @@ public class Member implements MemberCode {
     private String addr;
     private String addrDetail;
 
-    private LocalDateTime lastLoginDt;//마지막 로그인 일자
     
 }

@@ -1,4 +1,4 @@
-package com.example.minisite_project.admin;
+package com.example.minisite_project.admin.member.controller;
 
 
 import org.springframework.stereotype.Controller;
