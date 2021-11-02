@@ -24,5 +24,12 @@ public class MainController {
         return "index";
     }
 
+    @RequestMapping("/error/denied")
+    String errorDenied() {
+
+        return "error/denied";
+    }
+
+
 
 }

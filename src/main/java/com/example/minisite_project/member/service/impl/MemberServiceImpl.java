@@ -72,6 +72,11 @@ public class MemberServiceImpl implements MemberService {
        }
 
        Member member = optionalMember.get();
+
+       if(member.isEmailAuthYn()){
+           return false;
+       }
+
        member.setEmailAuthYn(true);
        member.setEmailAuthDt(LocalDateTime.now());
        memberRepository.save(member);
