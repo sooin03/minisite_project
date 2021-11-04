@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class WebtoonParam extends CommonParam {
 
-    long id;//course.id
+    long id;//webtoon.id
     long categoryId;
 
 }

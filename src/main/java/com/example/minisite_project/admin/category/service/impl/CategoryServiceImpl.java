@@ -2,6 +2,7 @@ package com.example.minisite_project.admin.category.service.impl;
 
 import com.example.minisite_project.admin.category.dto.CategoryDto;
 import com.example.minisite_project.admin.category.entity.Category;
+import com.example.minisite_project.admin.category.mapper.CategoryMapper;
 import com.example.minisite_project.admin.category.model.CategoryInput;
 import com.example.minisite_project.admin.category.repository.CategoryRepository;
 import com.example.minisite_project.admin.category.service.CategoryService;
@@ -17,8 +18,8 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
     
     private final CategoryRepository categoryRepository;
-//    private final CategoryMapper categoryMapper;
-//
+    private final CategoryMapper categoryMapper;
+
     private Sort getSortBySortValueDesc() {
         return Sort.by(Sort.Direction.DESC, "sortValue");
     }
@@ -67,9 +68,10 @@ public class CategoryServiceImpl implements CategoryService {
         return true;
     }
 
-//    @Override
-//    public List<CategoryDto> frontList(CategoryDto parameter) {
-//
-//        return categoryMapper.select(parameter);
-//    }
+    @Override
+    public List<CategoryDto> frontList(CategoryDto parameter) {
+
+        return categoryMapper.select(parameter);
+    }
+
 }

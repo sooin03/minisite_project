@@ -21,7 +21,6 @@ import java.util.Optional;
 public class WebtoonServiceImpl implements WebtoonService {
     
     private final WebtoonRepository webtoonRepository;
-//    private final TakeCourseRepository takeCourseRepository;
     private final WebtoonMapper webtoonMapper;
     
     
@@ -132,72 +131,33 @@ public class WebtoonServiceImpl implements WebtoonService {
 
         return true;
     }
-//
-//    @Override
-//    public List<WebtoonDto> frontList(CourseParam parameter) {
-//
-//        if (parameter.getCategoryId() < 1) {
-//            List<Course> courseList = courseRepository.findAll();
-//            return WebtoonDto.of(courseList);
-//        }
-//
-//        Optional<List<Course>> optionalCourses = courseRepository.findByCategoryId(parameter.getCategoryId());
-//        if (optionalCourses.isPresent()) {
-//            return WebtoonDto.of(optionalCourses.get());
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public WebtoonDto frontDetail(long id) {
-//
-//        Optional<Course> optionalCourse = courseRepository.findById(id);
-//        if (optionalCourse.isPresent()) {
-//            return WebtoonDto.of(optionalCourse.get());
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * 수강신청
-//     */
-//    @Override
-//    public ServiceResult req(TakeCourseInput parameter) {
-//
-//        ServiceResult result = new ServiceResult();
-//
-//        Optional<Course> optionalCourse = courseRepository.findById(parameter.getCourseId());
-//        if (!optionalCourse.isPresent()) {
-//            result.setResult(false);
-//            result.setMessage("강좌 정보가 존재하지 않습니다.");
-//            return result;
-//        }
-//
-//        Course course = optionalCourse.get();
-//
-//        //이미 신청정보가 있는지 확인
-//        String[] statusList = {TakeCourse.STATUS_REQ, TakeCourse.STATUS_COMPLETE};
-//        long count = takeCourseRepository.countByCourseIdAndUserIdAndStatusIn(course.getId(), parameter.getUserId(), Arrays.asList(statusList));
-//
-//        if (count > 0) {
-//            result.setResult(false);
-//            result.setMessage("이미 신청한 강좌 정보가 존재합니다.");
-//            return result;
-//        }
-//
-//        TakeCourse takeCourse = TakeCourse.builder()
-//                .courseId(course.getId())
-//                .userId(parameter.getUserId())
-//                .payPrice(course.getSalePrice())
-//                .regDt(LocalDateTime.now())
-//                .status(TakeCourse.STATUS_REQ)
-//                .build();
-//        takeCourseRepository.save(takeCourse);
-//
-//        result.setResult(true);
-//        result.setMessage("");
-//        return result;
-//    }
+
+    @Override
+    public List<WebtoonDto> frontList(WebtoonParam parameter) {
+
+        if (parameter.getCategoryId() < 1) {
+            List<Webtoon> webtoonList = webtoonRepository.findAll();
+            return WebtoonDto.of(webtoonList);
+        }
+
+        Optional<List<Webtoon>> optionalWebtoons = webtoonRepository.findByCategoryId(parameter.getCategoryId());
+        if (optionalWebtoons.isPresent()) {
+            return WebtoonDto.of(optionalWebtoons.get());
+        }
+        return null;
+    }
+
+    @Override
+    public WebtoonDto frontDetail(long id) {
+
+        Optional<Webtoon> optionalWebtoon = webtoonRepository.findById(id);
+        if (optionalWebtoon.isPresent()) {
+            return WebtoonDto.of(optionalWebtoon.get());
+        }
+        return null;
+    }
+
+
 //
 //    @Override
 //    public List<WebtoonDto> listAll() {

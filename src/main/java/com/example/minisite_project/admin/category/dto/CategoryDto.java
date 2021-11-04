@@ -22,7 +22,7 @@ public class CategoryDto {
     
     
     //ADD COLUMNS
-    int courseCount;
+    int webtoonCount;
     
     
     public static List<CategoryDto> of (List<Category> categories) {

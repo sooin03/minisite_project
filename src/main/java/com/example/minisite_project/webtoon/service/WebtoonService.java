@@ -36,17 +36,13 @@ public interface WebtoonService {
     /**
      * 프론트 웹툰 목록
      */
-  //  List<CourseDto> frontList(CourseParam parameter);
+    List<WebtoonDto> frontList(WebtoonParam parameter);
 
     /**
      * 프론트 웹툰 상세 정보
      */
-   // CourseDto frontDetail(long id);
+    WebtoonDto frontDetail(long id);
 
-    /**
-     * 수강신청
-     */
-   // ServiceResult req(TakeCourseInput parameter);
 
     /**
      * 전체 웹툰 목록
