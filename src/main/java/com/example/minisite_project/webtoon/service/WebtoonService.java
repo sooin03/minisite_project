@@ -9,37 +9,37 @@ import java.util.List;
 public interface WebtoonService {
 
     /**
-     * 강좌 등록
+     * 웹툰 등록
      */
     boolean add(WebtoonInput parameter);
 
     /**
-     * 강좌 정보수정
+     * 웹툰 정보 수정
      */
-   // boolean set(CourseInput parameter);
+    boolean set(WebtoonInput parameter);
 
     /**
-     * 강좌 목록
+     * 웹툰 목록
      */
     List<WebtoonDto> list(WebtoonParam parameter);
 
     /**
-     * 강좌 상세정보
+     * 단건 웹툰 상세정보
      */
-  //  CourseDto getById(long id);
+    WebtoonDto getById(long id);
 
     /**
-     * 강좌 내용 삭제
+     * 웹툰 내용 삭제
      */
- //   boolean del(String idList);
+    boolean del(String idList);
 
     /**
-     * 프론트 강좌 목록
+     * 프론트 웹툰 목록
      */
   //  List<CourseDto> frontList(CourseParam parameter);
 
     /**
-     * 프론트 강좌 상세 정보
+     * 프론트 웹툰 상세 정보
      */
    // CourseDto frontDetail(long id);
 
@@ -49,7 +49,7 @@ public interface WebtoonService {
    // ServiceResult req(TakeCourseInput parameter);
 
     /**
-     * 전체 강좌 목록
+     * 전체 웹툰 목록
      */
     //List<CourseDto> listAll();
 

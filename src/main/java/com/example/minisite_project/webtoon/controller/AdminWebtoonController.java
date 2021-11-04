@@ -1,6 +1,7 @@
 package com.example.minisite_project.webtoon.controller;
 
 
+import com.example.minisite_project.admin.category.service.CategoryService;
 import com.example.minisite_project.common.BaseController;
 import com.example.minisite_project.webtoon.dto.WebtoonDto;
 import com.example.minisite_project.webtoon.model.WebtoonInput;
@@ -14,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -22,7 +24,7 @@ import java.util.List;
 public class AdminWebtoonController extends BaseController {
     
     private final WebtoonService webtoonService;
-//    private final CategoryService categoryService;
+    private final CategoryService categoryService;
     
     @GetMapping("/admin/webtoon/list.do")
     public String list(Model model, WebtoonParam parameter) {
@@ -46,23 +48,23 @@ public class AdminWebtoonController extends BaseController {
     
     @GetMapping(value = {"/admin/webtoon/add.do", "/admin/webtoon/edit.do"})
     public String add(Model model, HttpServletRequest request
-            , CourseInput parameter) {
+            , WebtoonInput parameter) {
 
         //카테고리 정보를 내려줘야 함.
         model.addAttribute("category", categoryService.list());
 
         boolean editMode = request.getRequestURI().contains("/edit.do");
-        CourseDto detail = new CourseDto();
+        WebtoonDto detail = new WebtoonDto();
 
         if (editMode) {
             long id = parameter.getId();
-            CourseDto existCourse = courseService.getById(id);
-            if (existCourse == null) {
+            WebtoonDto existWebtoon = webtoonService.getById(id);
+            if (existWebtoon == null) {
                 // error 처리
-                model.addAttribute("message", "강좌정보가 존재하지 않습니다.");
+                model.addAttribute("message", "웹툰정보가 존재하지 않습니다.");
                 return "common/error";
             }
-            detail = existCourse;
+            detail = existWebtoon;
         }
 
         model.addAttribute("editMode", editMode);
@@ -142,34 +144,33 @@ public class AdminWebtoonController extends BaseController {
 //        parameter.setFilename(saveFilename);
 //        parameter.setUrlFilename(urlFilename);
 //
-//        boolean editMode = request.getRequestURI().contains("/edit.do");
-//
-//        if (editMode) {
-//            long id = parameter.getId();
-//            CourseDto existCourse = courseService.getById(id);
-//            if (existCourse == null) {
-//                // error 처리
-//                model.addAttribute("message", "강좌정보가 존재하지 않습니다.");
-//                return "common/error";
-//            }
-//
-//            boolean result = courseService.set(parameter);
-//
-//        } else {
-//            boolean result = courseService.add(parameter);
-//        }
+        boolean editMode = request.getRequestURI().contains("/edit.do");
 
-        return "redirect:/admin/course/list.do";
+        if (editMode) {
+            long id = parameter.getId();
+            WebtoonDto existCourse = webtoonService.getById(id);
+            if (existCourse == null) {
+                model.addAttribute("message", "강좌정보가 존재하지 않습니다.");
+                return "common/error";
+            }
+
+            boolean result = webtoonService.set(parameter);
+
+        } else {
+            boolean result = webtoonService.add(parameter);
+        }
+
+        return "redirect:/admin/webtoon/list.do";
     }
-//
-//    @PostMapping("/admin/course/delete.do")
-//    public String del(Model model, HttpServletRequest request
-//            , CourseInput parameter) {
-//
-//        boolean result = courseService.del(parameter.getIdList());
-//
-//        return "redirect:/admin/course/list.do";
-//    }
-//
+
+    @PostMapping("/admin/webtoon/delete.do")
+    public String del(Model model, HttpServletRequest request
+            , WebtoonInput parameter) {
+
+        boolean result = webtoonService.del(parameter.getIdList());
+
+        return "redirect:/admin/webtoon/list.do";
+    }
+
     
 }

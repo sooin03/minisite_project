@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +30,6 @@ public class WebtoonServiceImpl implements WebtoonService {
         try {
             return LocalDate.parse(value, formatter);
         } catch (Exception e) {
-        
         }
         
         return null;
@@ -59,35 +59,36 @@ public class WebtoonServiceImpl implements WebtoonService {
         return true;
     }
     
-//    @Override
-//    public boolean set(CourseInput parameter) {
-//
-//        LocalDate saleEndDt = getLocalDate(parameter.getSaleEndDtText());
-//
-//        Optional<Course> optionalCourse = courseRepository.findById(parameter.getId());
-//        if (!optionalCourse.isPresent()) {
-//            //수정할 데이터가 없음
-//            return false;
-//        }
-//
-//        Course course = optionalCourse.get();
-//        course.setCategoryId(parameter.getCategoryId());
-//        course.setSubject(parameter.getSubject());
-//        course.setKeyword(parameter.getKeyword());
-//        course.setSummary(parameter.getSummary());
-//        course.setContents(parameter.getContents());
-//        course.setPrice(parameter.getPrice());
-//        course.setSalePrice(parameter.getSalePrice());
-//        course.setSaleEndDt(saleEndDt);
-//        course.setUdtDt(LocalDateTime.now());
-//        course.setFilename(parameter.getFilename());
-//        course.setUrlFilename(parameter.getUrlFilename());
-//
-//        courseRepository.save(course);
-//
-//        return true;
-//    }
-//
+    @Override
+    public boolean set(WebtoonInput parameter) {
+
+        LocalDate saleEndDt = getLocalDate(parameter.getSaleEndDtText());
+
+        Optional<Webtoon> optionalWebtoon = webtoonRepository.findById(parameter.getId());
+        if (!optionalWebtoon.isPresent()) {
+            //수정할 데이터가 없음
+            return false;
+        }
+
+        Webtoon webtoon = optionalWebtoon.get();
+        webtoon.setCategoryId(parameter.getCategoryId());
+        webtoon.setSubject(parameter.getSubject());
+        webtoon.setAuthor(parameter.getAuthor());
+        webtoon.setKeyword(parameter.getKeyword());
+        webtoon.setSummary(parameter.getSummary());
+        webtoon.setContents(parameter.getContents());
+        webtoon.setPrice(parameter.getPrice());
+        webtoon.setSalePrice(parameter.getSalePrice());
+        webtoon.setSaleEndDt(saleEndDt);
+        webtoon.setUdtDt(LocalDateTime.now());
+        webtoon.setFilename(parameter.getFilename());
+        webtoon.setUrlFilename(parameter.getUrlFilename());
+
+        webtoonRepository.save(webtoon);
+
+        return true;
+    }
+
     @Override
     public List<WebtoonDto> list(WebtoonParam parameter) {
 
@@ -105,54 +106,54 @@ public class WebtoonServiceImpl implements WebtoonService {
 
         return list;
     }
+
+    @Override
+    public WebtoonDto getById(long id) {
+        return webtoonRepository.findById(id).map(WebtoonDto::of).orElse(null);
+    }
+
+    @Override
+    public boolean del(String idList) {
+
+        if (idList != null && idList.length() > 0) {
+            String[] ids = idList.split(",");
+            for (String x : ids) {
+                long id = 0L;
+                try {
+                    id = Long.parseLong(x);
+                } catch (Exception e) {
+                }
+
+                if (id > 0) {
+                    webtoonRepository.deleteById(id);
+                }
+            }
+        }
+
+        return true;
+    }
 //
 //    @Override
-//    public CourseDto getById(long id) {
-//        return courseRepository.findById(id).map(CourseDto::of).orElse(null);
-//    }
-//
-//    @Override
-//    public boolean del(String idList) {
-//
-//        if (idList != null && idList.length() > 0) {
-//            String[] ids = idList.split(",");
-//            for (String x : ids) {
-//                long id = 0L;
-//                try {
-//                    id = Long.parseLong(x);
-//                } catch (Exception e) {
-//                }
-//
-//                if (id > 0) {
-//                    courseRepository.deleteById(id);
-//                }
-//            }
-//        }
-//
-//        return true;
-//    }
-//
-//    @Override
-//    public List<CourseDto> frontList(CourseParam parameter) {
+//    public List<WebtoonDto> frontList(CourseParam parameter) {
 //
 //        if (parameter.getCategoryId() < 1) {
 //            List<Course> courseList = courseRepository.findAll();
-//            return CourseDto.of(courseList);
+//            return WebtoonDto.of(courseList);
 //        }
 //
 //        Optional<List<Course>> optionalCourses = courseRepository.findByCategoryId(parameter.getCategoryId());
 //        if (optionalCourses.isPresent()) {
-//            return CourseDto.of(optionalCourses.get());
+//            return WebtoonDto.of(optionalCourses.get());
 //        }
 //        return null;
 //    }
 //
 //    @Override
-//    public CourseDto frontDetail(long id) {
+//    public WebtoonDto frontDetail(long id) {
 //
 //        Optional<Course> optionalCourse = courseRepository.findById(id);
 //        if (optionalCourse.isPresent()) {
-//            return CourseDto.of(optionalCourse.get());
+//            return WebtoonDto.of(optionalCourse.get());
 //        }
 //        return null;
 //    }
@@ -199,11 +200,11 @@ public class WebtoonServiceImpl implements WebtoonService {
 //    }
 //
 //    @Override
-//    public List<CourseDto> listAll() {
+//    public List<WebtoonDto> listAll() {
 //
 //        List<Course> courseList = courseRepository.findAll();
 //
-//        return CourseDto.of(courseList);
+//        return WebtoonDto.of(courseList);
 //    }
 //
 }
