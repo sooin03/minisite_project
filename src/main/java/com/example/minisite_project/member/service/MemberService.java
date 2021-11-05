@@ -2,6 +2,7 @@ package com.example.minisite_project.member.service;
 
 import com.example.minisite_project.admin.member.model.MemberParam;
 import com.example.minisite_project.admin.dto.MemberDto;
+import com.example.minisite_project.common.model.ServiceResult;
 import com.example.minisite_project.member.model.MemberInput;
 import com.example.minisite_project.member.model.ResetPasswordInput;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -56,12 +57,12 @@ public interface MemberService extends UserDetailsService {
     /**
      * 회원정보 수정
      */
-   // ServiceResult updateMember(MemberInput parameter);
+    ServiceResult updateMember(MemberInput parameter);
 
     /**
      * 회원 정보 페이지내 비밀번호 변경 기능
      */
-    //ServiceResult updateMemberPassword(MemberInput parameter);
+    ServiceResult updateMemberPassword(MemberInput parameter);
 
     /**
      * 회원을 탈퇴시켜 주는 로직

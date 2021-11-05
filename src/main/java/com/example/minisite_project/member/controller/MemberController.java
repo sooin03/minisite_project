@@ -1,5 +1,7 @@
 package com.example.minisite_project.member.controller;
 
+import com.example.minisite_project.admin.dto.MemberDto;
+import com.example.minisite_project.common.model.ServiceResult;
 import com.example.minisite_project.member.model.MemberInput;
 import com.example.minisite_project.member.model.ResetPasswordInput;
 import com.example.minisite_project.member.service.MemberService;
@@ -76,13 +78,61 @@ public class MemberController {
     @GetMapping("/member/info")
     public String memberInfo(Model model, Principal principal) {
 
-//        String userId = principal.getName();
-//        MemberDto detail = memberService.detail(userId);
-//
-//        model.addAttribute("detail", detail);
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail", detail);
 
         return "member/info";
     }
+
+    @PostMapping("/member/info")
+    public String memberInfoSubmit(Model model
+            , MemberInput parameter
+            , Principal principal) {
+
+        String userId = principal.getName();
+        parameter.setUserId(userId);
+
+        ServiceResult result = memberService.updateMember(parameter);
+        if (!result.isResult()) {
+            model.addAttribute("message", result.getMessage());
+            return "common/error";
+        }
+        return "redirect:/member/info";
+    }
+
+
+
+    @GetMapping("/member/password")
+    public String memberPassword(Model model, Principal principal) {
+
+        String userId = principal.getName();
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail", detail);
+
+        return "member/password";
+    }
+
+    @PostMapping("/member/password")
+    public String memberPasswordSubmit(Model model
+            , MemberInput parameter
+            , Principal principal) {
+
+        String userId = principal.getName();
+        parameter.setUserId(userId);
+
+        ServiceResult result = memberService.updateMemberPassword(parameter);
+        if (!result.isResult()) {
+            model.addAttribute("message", result.getMessage());
+            return "common/error";
+        }
+
+        return "redirect:/member/info";
+    }
+
+
 
     @GetMapping("/member/reset/password")
     public String resetPassword(Model model, HttpServletRequest request) {
