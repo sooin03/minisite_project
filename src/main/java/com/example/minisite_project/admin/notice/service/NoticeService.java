@@ -4,11 +4,12 @@ import com.example.minisite_project.admin.notice.dto.NoticeDto;
 import com.example.minisite_project.admin.notice.model.NoticeInput;
 import com.example.minisite_project.admin.notice.model.NoticeParam;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface NoticeService {
     /**
-     * 강좌 등록
+     * 공지사항 등록
      */
     boolean add(NoticeInput parameter);
 
@@ -30,17 +31,17 @@ public interface NoticeService {
     /**
      * 공지사항 내용 삭제
      */
-    //boolean del(String idList);
+    boolean del(String idList);
 
     /**
      * 프론트 공지사항 목록
      */
-    //List<CourseDto> frontList(CourseParam parameter);
+    List<NoticeDto> frontList(NoticeParam parameter);
 
     /**
      * 프론트 공지사항 상세 정보
      */
-    //CourseDto frontDetail(long id);
+    NoticeDto frontDetail(long id);
 
     /**
      * 전체 공지사항 목록

@@ -8,7 +8,7 @@ public class NoticeInput {
 
      long id;
 
-     long writer;
+     String writer;
      String title;
      String contents;
 

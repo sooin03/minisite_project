@@ -18,7 +18,7 @@ public class Notice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-     long writer; //작성자 아이디
+     String writer;
      String title;
 
     @Lob

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>공지 사항 페이지</title>
+    <style>
+        span.price {
+            text-decoration: line-through;
+        }
+
+        .notice_table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .notice_table th, .notice_table td {
+            border:solid 1px #000;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>공지 사항 </h1>
+    <div th:replace="/fragments/layout.html :: fragment-body-menu"></div>
+
+
+    <table class="notice_table">
+        <thead>
+            <tr>
+                <th> ID</th>
+                <th>
+                    공지사항
+                </th>
+                <th>
+                    작성자
+                </th>
+            </tr>
+        </thead>
+        <hr/>
+        <tbody>
+            <tr th:each="x : ${list}">
+                <td>
+                    <p th:text="${x.id}"></p>
+                </td>
+                <td>
+                    <a th:href="'/notice/' + ${x.id}">
+                        <p th:text="${x.title}"></p>
+                    </a>
+                </td>
+                <td>
+                    <p th:text="${x.writer}"></p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</body>
+</html>

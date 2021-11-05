@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +26,7 @@ public class NoticeServiceImpl implements NoticeService {
 
         Notice notice = Notice.builder()
                 .title(parameter.getTitle())
+                .writer(parameter.getWriter())
                 .contents(parameter.getContents())
                 .regDt(LocalDateTime.now())
                 .build();
@@ -46,6 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
 
         Notice notice = optionalNotice.get();
         notice.setTitle(parameter.getTitle());
+        notice.setWriter(parameter.getWriter());
         notice.setContents(parameter.getContents());
         notice.setUdtDt(LocalDateTime.now());
 
@@ -75,6 +75,43 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public NoticeDto getById(long id) {
         return noticeRepository.findById(id).map(NoticeDto::of).orElse(null);
+    }
+
+    @Override
+    public boolean del(String idList) {
+        if (idList != null && idList.length() > 0) {
+            String[] ids = idList.split(",");
+            for (String x : ids) {
+                long id = 0L;
+                try {
+                    id = Long.parseLong(x);
+                } catch (Exception e) {
+                }
+
+                if (id > 0) {
+                    noticeRepository.deleteById(id);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public List<NoticeDto> frontList(NoticeParam parameter) {
+
+            List<Notice> noticeList = noticeRepository.findAll();
+
+            return NoticeDto.of(noticeList);
+    }
+
+    @Override
+    public NoticeDto frontDetail(long id) {
+        Optional<Notice> optionalNotice = noticeRepository.findById(id);
+        if (optionalNotice.isPresent()) {
+            return NoticeDto.of(optionalNotice.get());
+        }
+        return null;
     }
 
 

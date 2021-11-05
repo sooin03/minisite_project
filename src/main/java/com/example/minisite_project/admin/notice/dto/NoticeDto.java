@@ -18,7 +18,7 @@ public class NoticeDto {
 
      Long id;
 
-     Long writer;
+     String writer;
      String title;
      String contents;
 
@@ -34,6 +34,7 @@ public class NoticeDto {
         return NoticeDto.builder()
                 .id(notice.getId())
                 .writer(notice.getWriter())
+                .title(notice.getTitle())
                 .contents(notice.getContents())
                 .regDt(notice.getRegDt())
                 .udtDt(notice.getUdtDt())
@@ -46,11 +47,11 @@ public class NoticeDto {
             return null;
         }
 
-        List<NoticeDto> courseList = new ArrayList<>();
+        List<NoticeDto> noticeList = new ArrayList<>();
         for(Notice x : notices) {
-            courseList.add(NoticeDto.of(x));
+            noticeList.add(NoticeDto.of(x));
         }
-        return courseList;
+        return noticeList;
 
     }
 

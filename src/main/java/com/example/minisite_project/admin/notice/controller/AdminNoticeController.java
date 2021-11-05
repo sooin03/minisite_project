@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -66,7 +67,7 @@ public class AdminNoticeController extends BaseController {
         model.addAttribute("editMode", editMode);
         model.addAttribute("detail", detail);
 
-        return "admin/course/add";
+        return "admin/notice/add";
     }
 
     @PostMapping(value = {"/admin/notice/add.do", "/admin/notice/edit.do"})
@@ -89,6 +90,15 @@ public class AdminNoticeController extends BaseController {
         } else {
             boolean result = noticeService.add(parameter);
         }
+
+        return "redirect:/admin/notice/list.do";
+    }
+
+    @PostMapping("/admin/notice/delete.do")
+    public String del(Model model, HttpServletRequest request
+            , NoticeInput parameter) {
+
+        boolean result = noticeService.del(parameter.getIdList());
 
         return "redirect:/admin/notice/list.do";
     }
