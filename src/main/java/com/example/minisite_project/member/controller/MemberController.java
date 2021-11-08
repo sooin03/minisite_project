@@ -1,6 +1,7 @@
 package com.example.minisite_project.member.controller;
 
 import com.example.minisite_project.admin.dto.MemberDto;
+import com.example.minisite_project.admin.member.model.AdminMemberInput;
 import com.example.minisite_project.common.model.ServiceResult;
 import com.example.minisite_project.member.model.FindEmailInput;
 import com.example.minisite_project.member.model.MemberInput;
@@ -174,6 +175,28 @@ public class MemberController {
         model.addAttribute("result", result);
 
         return "member/reset_password_result";
+    }
+
+    @GetMapping("/member/withdraw")
+    public String memberWithdraw(Model model) {
+
+        return "member/withdraw";
+    }
+
+    @PostMapping("/member/withdraw")
+    public String memberWithdrawSubmit(Model model
+            , AdminMemberInput parameter
+            , Principal principal) {
+
+        String userId = principal.getName();
+
+        ServiceResult result = memberService.withdraw(userId, parameter.getPassword());
+        if (!result.isResult()) {
+            model.addAttribute("message", result.getMessage());
+            return "common/error";
+        }
+
+        return "redirect:/member/logout";
     }
 
 

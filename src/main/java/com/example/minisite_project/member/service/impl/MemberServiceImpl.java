@@ -7,6 +7,7 @@ import com.example.minisite_project.components.MailComponents;
 //import com.example.minisite_project.member.dto.MemberDto;
 
 import com.example.minisite_project.member.entity.Member;
+import com.example.minisite_project.member.entity.MemberCode;
 import com.example.minisite_project.member.exception.MemberNotEmailAuthException;
 import com.example.minisite_project.member.exception.MemberStopUserException;
 import com.example.minisite_project.member.mapper.MemberMapper;
@@ -287,6 +288,38 @@ public class MemberServiceImpl implements MemberService {
         MemberDto memberDto = MemberDto.of(member);
 
         return memberDto;
+    }
+
+    @Override
+    public ServiceResult withdraw(String userId, String password) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if (!optionalMember.isPresent()) {
+            return new ServiceResult(false, "회원 정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        if (!PasswordUtils.equals(password, member.getPassword())) {
+            return new ServiceResult(false, "비밀번호가 일치하지 않습니다.");
+        }
+
+        member.setUserName("삭제회원");
+        member.setPhone("");
+        member.setPassword("");
+        member.setRegDt(null);
+        member.setUdtDt(null);
+        member.setEmailAuthYn(false);
+        member.setEmailAuthDt(null);
+        member.setEmailAuthKey("");
+        member.setResetPasswordKey("");
+        member.setResetPasswordLimitDt(null);
+        member.setUserStatus(MemberCode.MEMBER_STATUS_WITHDRAW);
+        member.setZipcode("");
+        member.setAddr("");
+        member.setAddrDetail("");
+        memberRepository.save(member);
+
+        return new ServiceResult();
     }
 
     @Override
