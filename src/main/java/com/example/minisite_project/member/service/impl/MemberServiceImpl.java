@@ -10,6 +10,7 @@ import com.example.minisite_project.member.entity.Member;
 import com.example.minisite_project.member.exception.MemberNotEmailAuthException;
 import com.example.minisite_project.member.exception.MemberStopUserException;
 import com.example.minisite_project.member.mapper.MemberMapper;
+import com.example.minisite_project.member.model.FindEmailInput;
 import com.example.minisite_project.member.model.MemberInput;
 import com.example.minisite_project.member.model.ResetPasswordInput;
 import com.example.minisite_project.member.repository.MemberRepository;
@@ -272,6 +273,20 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         return new ServiceResult(true);
+    }
+
+    @Override
+    public MemberDto findEmailId(FindEmailInput parameter) {
+
+        Optional<Member> optionalMember = memberRepository.findByUserNameAndPhone(parameter.getUserName(), parameter.getPhone());
+        if (!optionalMember.isPresent()) {
+            throw new RuntimeException("해당 유저 정보가 없습니다.");
+        }
+
+        Member member = optionalMember.get();
+        MemberDto memberDto = MemberDto.of(member);
+
+        return memberDto;
     }
 
     @Override

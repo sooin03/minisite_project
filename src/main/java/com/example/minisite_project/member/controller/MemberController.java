@@ -2,6 +2,7 @@ package com.example.minisite_project.member.controller;
 
 import com.example.minisite_project.admin.dto.MemberDto;
 import com.example.minisite_project.common.model.ServiceResult;
+import com.example.minisite_project.member.model.FindEmailInput;
 import com.example.minisite_project.member.model.MemberInput;
 import com.example.minisite_project.member.model.ResetPasswordInput;
 import com.example.minisite_project.member.service.MemberService;
@@ -45,6 +46,24 @@ public class MemberController {
 
         return "member/find_password_result";
     }
+
+    @GetMapping("/member/find-email")
+    public String findEmail() {
+
+        return "member/find_email";
+    }
+
+
+    @PostMapping("/member/find-email")
+    public String findEmailSubmit(Model model, FindEmailInput parameter) {
+
+        MemberDto result = memberService.findEmailId(parameter);
+
+        model.addAttribute("result", result);
+
+        return "member/find_email_result";
+    }
+
 
 
 
